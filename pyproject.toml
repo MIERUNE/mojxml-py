@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "mojxml-py"
+version = "0.1.0"
+description = "法務省登記所備付地図データ（地図XML）の変換ツールおよびPythonライブラリ"
+authors = ["MIERUNE Inc. <info@mierune.co.jp>"]
+readme = "README.md"
+license = "MIT"
+packages = [{include = "mojxml"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+lxml = "^4.9.2"
+pyproj = "^3.4.1"
+shapely = "^2.0.1"
+ujson = "^5.7.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+flake8 = "^6.0.0"
+flake8-bugbear = "^23.1.20"
+flake8-docstrings = "^1.7.0"
+isort = "^5.12.0"
+pyproject-flake8 = "^6.0.0.post1"
+pytest = "^7.2.1"
+pytest-cov = "^4.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.flake8]
+select = "B,C,E,F,W,D,B950"
+ignore = "E203,E501,W503"
+extend-ignore = "B008,D415,D400,D104"
+max-line-length = 120
+max-complexity = 20
+docstring-convention = "google"
+
+[tool.coverage.run]
+source = ['mojxml']
+omit = ['**/__main__.py']
