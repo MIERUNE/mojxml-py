@@ -41,7 +41,7 @@ def _parse_base_properties(root: et._Element) -> dict[str, object]:
 
 
 def _parse_points(spatial_elem: et._Element) -> dict[str, Point]:
-    points = {}
+    points: dict[str, Point] = {}
     for point in spatial_elem.iterfind("./zmn:GM_Point", _NS):
         pos = point.find(".//zmn:DirectPosition", _NS)
         x = None
@@ -63,7 +63,7 @@ def _parse_points(spatial_elem: et._Element) -> dict[str, Point]:
 def _parse_curves(
     spatial_elem: et._Element, points: dict[str, Point]
 ) -> dict[str, Curve]:
-    curves = {}
+    curves: dict[str, Curve] = {}
     for curve in spatial_elem.iterfind("./zmn:GM_Curve", _NS):
         segments = curve.findall("./zmn:GM_Curve.segment", _NS)
         assert len(segments) == 1
@@ -196,7 +196,6 @@ def process_raw(src_content: bytes, dst_path: str | Path) -> None:
     #         fude_to_zukakus[fude_id] = zukaku
 
     subject_elem = doc.find("./主題属性", _NS)
-
     features = _parse_features(subject_elem, surfaces)
 
     # XMLのルート要素にある属性情報をFeatureのプロパティに追加する
