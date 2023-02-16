@@ -14,13 +14,14 @@ from .schema import OGR_SCHEMA
 _logger = logging.getLogger(__name__)
 
 
-def process_raw(src_iter: Iterable[bytes], dst_path: str | Path) -> None:
+def process_raw(
+    src_iter: Iterable[bytes], dst_path: Path, driver: str | None = None
+) -> None:
     """WIP"""
-    dst_path = Path(dst_path)
     with fiona.open(
-        dst_path.with_suffix(".geojson"),
+        dst_path,
         "w",
-        driver="GeoJSON",
+        driver=driver,
         schema=OGR_SCHEMA,
         crs="EPSG:4326",
     ) as f:
@@ -35,28 +36,20 @@ def process_raw(src_iter: Iterable[bytes], dst_path: str | Path) -> None:
             _logger.info(f"{count} files processed")
 
 
-def process_xml(src_path: str | Path, dst_path: str | Path) -> None:
+def _iter_content_xml(src_paths: list[Path]) -> Iterable[bytes]:
     """WIP"""
-    src_path = Path(src_path)
-    with open(src_path, "rb") as f:
-        src_content = f.read()
-        return process_raw([src_content], dst_path)
+    for src_path in src_paths:
+        src_path = Path(src_path)
+        if src_path.suffix == ".xml":
+            with open(src_path, "rb") as f:
+                yield f.read()
+        elif src_path.suffix == ".zip":
+            with MojXMLZipFile(src_path) as mzf:
+                yield from (content for (_, content) in mzf.iter_xml_contents())
+        else:
+            raise ValueError(f"Unsupported file type: {src_path.suffix}")
 
 
-def process_zip(src_path: str | Path, dst_path: str | Path) -> None:
+def process_file(src_paths: list[Path], dst_path: Path) -> None:
     """WIP"""
-    src_path = Path(src_path)
-    with MojXMLZipFile(src_path) as mzf:
-        process_raw((content for (_, content) in mzf.iter_xml_contents()), dst_path)
-
-
-def process_file(src_path: str | Path, dst_path: str | Path) -> None:
-    """WIP"""
-    src_path = Path(src_path)
-
-    if src_path.suffix == ".xml":
-        process_xml(src_path, dst_path)
-    elif src_path.suffix == ".zip":
-        process_zip(src_path, dst_path)
-    else:
-        raise ValueError(f"Unsupported file type: {src_path.suffix}")
+    process_raw(_iter_content_xml(src_paths), dst_path)

@@ -7,6 +7,9 @@ readme = "README.md"
 license = "MIT"
 packages = [{include = "mojxml"}]
 
+[tool.poetry.scripts]
+mojxml2ogr = 'mojxml.__main__:main'
+
 [tool.poetry.dependencies]
 python = "^3.9"
 lxml = "^4.9.2"
@@ -14,6 +17,7 @@ pyproj = "^3.4.1"
 shapely = "^2.0.1"
 ujson = "^5.7.0"
 fiona = "^1.9.1"
+click = "^8.1.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"
