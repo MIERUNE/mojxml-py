@@ -13,6 +13,7 @@ lxml = "^4.9.2"
 pyproj = "^3.4.1"
 shapely = "^2.0.1"
 ujson = "^5.7.0"
+fiona = "^1.9.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"

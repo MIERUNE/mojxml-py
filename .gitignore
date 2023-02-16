@@ -5,6 +5,7 @@
 
 # Outputs
 /testdata/**/*.geojson
+/testdata/**/*.fgb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
