@@ -2,7 +2,7 @@
 
 [![Test](https://github.com/MIERUNE/mojxml-py/actions/workflows/test.yaml/badge.svg)](https://github.com/MIERUNE/mojxml-py/actions/workflows/test.yaml)
 
-法務省登記所備付地図データ（地図XML）を各種形式 (GeoJSON, GeoPackage, FlatGeobuf, etc.) に変換するPythonライブラリ、およびコマンドラインインタフェースです。
+法務省登記所備付地図データ（地図XML）を各種GISデータ形式 (GeoJSON, GeoPackage, FlatGeobuf, etc.) に変換するコマンドラインツールです。地図XMLを読み込むためのPythonライブラリとしても使用できます。
 
 ## インストール
 
@@ -12,15 +12,14 @@ pip3 install mojxml
 
 ## コマンドラインインタフェース
 
-```bash
-❯ mojxml2ogr --help
-Usage: mojxml2ogr [OPTIONS] OUTPUT_FILE INPUT_FILES...
+```
+Usage: mojxml2ogr [OPTIONS] DST_FILE SRC_FILES...
 
   Convert MoJ XMLs to GeoJSON/GeoPackage/FlatGeobuf/etc.
 
-  OUTPUT_FILE: Output file (.geojson, .gpkg, .fgb, etc.)
+  DST_FILE: output filename (.geojson, .gpkg, .fgb, etc.)
 
-  INPUT_FILES: Input .xml or .zip files
+  SRC_FILES: one or more .xml/.zip files
 ```
 
 ### 使用例

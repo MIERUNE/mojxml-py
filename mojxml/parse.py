@@ -176,9 +176,9 @@ def _parse_features(
 
 
 # TODO: 仮
-def parse_raw(src_content: bytes) -> list[Feature]:
+def parse_raw(content: bytes) -> list[Feature]:
     """TODO:"""
-    doc = et.fromstring(src_content, None)
+    doc = et.fromstring(content, None)
 
     # 基本情報を取得
     base_props = _parse_base_properties(doc)

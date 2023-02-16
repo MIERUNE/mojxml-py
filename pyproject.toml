@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mojxml-py"
-version = "0.0.1"
+version = "0.0.1a0"
 description = "法務省登記所備付地図データ（地図XML）を扱うためのPythonライブラリ"
 authors = ["MIERUNE Inc. <info@mierune.co.jp>"]
 readme = "README.md"
@@ -17,7 +17,6 @@ python = "^3.9"
 lxml = "^4.9.2"
 pyproj = "^3.4.1"
 shapely = "^2.0.1"
-ujson = "^5.7.0"
 fiona = "^1.9.1"
 click = "^8.1.3"
 
