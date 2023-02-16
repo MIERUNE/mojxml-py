@@ -1,9 +1,11 @@
 [tool.poetry]
 name = "mojxml-py"
-version = "0.1.0"
-description = "法務省登記所備付地図データ（地図XML）の変換ツールおよびPythonライブラリ"
+version = "0.0.1"
+description = "法務省登記所備付地図データ（地図XML）を扱うためのPythonライブラリ"
 authors = ["MIERUNE Inc. <info@mierune.co.jp>"]
 readme = "README.md"
+homepage = "https://github.com/MIERUNE/mojxml-py"
+repository = "https://github.com/MIERUNE/mojxml-py"
 license = "MIT"
 packages = [{include = "mojxml"}]
 
