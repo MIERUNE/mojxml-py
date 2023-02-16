@@ -16,7 +16,7 @@ from .process import process_file
     required=True,
     type=click.Path(exists=True, dir_okay=False, path_type=Path),
 )
-def main(dst_file: Path, src_files: list[Path]):
+def main(dst_file: Path, src_files: list[Path]) -> None:
     """Convert MoJ XMLs to GeoJSON/GeoPackage/FlatGeobuf/etc.
 
     DST_FILE: output filename (.geojson, .gpkg, .fgb, etc.)
@@ -28,6 +28,7 @@ def main(dst_file: Path, src_files: list[Path]):
     handler = logging.StreamHandler()
     handler.setFormatter(logging.Formatter("%(message)s"))
     root_logger.addHandler(handler)
+    root_logger.setLevel(logging.INFO)
 
     # Process files
     process_file(src_paths=src_files, dst_path=dst_file)

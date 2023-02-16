@@ -45,7 +45,7 @@ def _iter_content_xml(src_paths: list[Path]) -> Iterable[bytes]:
                 yield f.read()
         elif src_path.suffix == ".zip":
             with MojXMLZipFile(src_path) as mzf:
-                yield from (content for (_, content) in mzf.iter_xml_contents())
+                yield from mzf.iter_xml_contents()
         else:
             raise ValueError(f"Unsupported file type: {src_path.suffix}")
 

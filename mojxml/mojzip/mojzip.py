@@ -14,9 +14,9 @@ class MojXMLZipFile(ZipFile):
             elif name.endswith(".xml"):
                 yield self.open(name).read()
 
-    def _extract_xml_content(self, internal_name: str) -> tuple[str, bytes]:
+    def _extract_xml_content(self, internal_name: str) -> bytes:
         """TODO"""
         with self.open(internal_name + ".zip") as f:
             with ZipFile(f) as zf:
                 xml_content = zf.open(internal_name + ".xml").read()
-                return (internal_name, xml_content)
+                return xml_content
