@@ -23,7 +23,7 @@ pip3 install mojxml
 ## コマンドラインインタフェース
 
 ```
-Usage: python -m mojxml [OPTIONS] DST_FILE SRC_FILES...
+Usage: mojxml2ogr [OPTIONS] DST_FILE SRC_FILES...
 
   Convert MoJ XMLs to GeoJSON/GeoPackage/FlatGeobuf/etc.
 
