@@ -4,6 +4,8 @@
 
 法務省登記所備付地図データ（地図XML）を各種GISデータ形式 (GeoJSON, GeoPackage, FlatGeobuf, etc.) に変換するコマンドラインツールです。地図XMLを読み込むためのPythonライブラリとしても使用できます。
 
+XMLパーサとして [lxml](https://github.com/lxml/lxml) (libxml2) を使用することで、デジタル庁の [mojxml2geojson](https://github.com/JDA-DM/mojxml2geojson) よりも高速な変換を実現しています。
+
 ## インストール
 
 Ubuntu/Debian:
@@ -38,7 +40,9 @@ Options:
   -c, --chikugai                  Include 地区外 and 別図
 ```
 
-出力形式は拡張子で判断されます。
+- 出力フォーマットは、出力ファイル名の拡張子から自動で判断されます。
+- `-a` オプションを指定すると、任意座標系のXMLファイルも変換されます。
+- `-c` オプションを指定すると、地番が「地区外」「別図」の地物も出力されます。
 
 ### 使用例
 
