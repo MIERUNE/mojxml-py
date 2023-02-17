@@ -5,6 +5,7 @@ from typing import TypedDict
 
 import lxml.etree as et
 import pyproj
+import shapely
 
 from .constants import CRS_MAP
 from .constants import XML_NAMESPACES as _NS
@@ -156,11 +157,11 @@ def _parse_features(
             if key == "形状":
                 coordinates = surfaces[entry.attrib["idref"]]
                 geometry = {"type": "MultiPolygon", "coordinates": coordinates}
-                # rep_point = shapely.MultiPolygon(
-                #     (p[0], p[1:]) for p in coordinates
-                # ).point_on_surface()
-                # properties["代表点経度"] = rep_point.x
-                # properties["代表点緯度"] = rep_point.y
+                rep_point = shapely.MultiPolygon(
+                    (p[0], p[1:]) for p in coordinates
+                ).point_on_surface()
+                properties["代表点経度"] = rep_point.x
+                properties["代表点緯度"] = rep_point.y
             else:
                 value = entry.text
                 properties[key] = value
