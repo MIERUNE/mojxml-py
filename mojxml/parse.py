@@ -1,4 +1,4 @@
-"""ひとまず雑に実装"""
+"""Parse MoJ XML files"""
 
 import logging
 from typing import TypedDict

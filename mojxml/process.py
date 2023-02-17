@@ -1,9 +1,9 @@
-"""ひとまず雑に実装"""
+"""Convert .xml/.zip files to OGR format."""
 
 import logging
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Optional
 
 import fiona
 
@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 
 
 def process_raw(
-    src_iter: Iterable[bytes], dst_path: Path, driver: str | None = None
+    src_iter: Iterable[bytes], dst_path: Path, driver: Optional[str] = None
 ) -> None:
     """WIP"""
     with fiona.open(
