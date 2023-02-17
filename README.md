@@ -47,6 +47,9 @@ Usage: mojxml2ogr [OPTIONS] DST_FILE SRC_FILES...
 # 配布用.zipファイルに含まれる全XMLをFlatGeobufに変換
 ❯ mojxml2ogr output.fgb 15222-1107.zip
 
+# 3つのzipファイルをまとめに1つのFlatGeobufに変換
+❯ mojxml2ogr output.fgb 01202-4400.zip 01236-4400.zip 01337-4400.zip
+
 # 配布用.zipファイルを1段階展開して出てくる.zipファイルのうち100個をFlatGeobufに変換
 ❯ mojxml2ogr output.fgb 15222-1107-15*.zip
 ```
