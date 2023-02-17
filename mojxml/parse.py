@@ -5,7 +5,6 @@ from typing import TypedDict
 
 import lxml.etree as et
 import pyproj
-import shapely
 
 from .constants import CRS_MAP
 from .constants import XML_NAMESPACES as _NS
@@ -123,7 +122,7 @@ def _parse_surfaces(
 
 
 def _parse_features(
-    subject_elem: et._Element, surfaces: dict[str, Surface]
+    subject_elem: et._Element, surfaces: dict[str, Surface], include_chikugai: bool
 ) -> list[Feature]:
     features = []
     for fude in subject_elem.iterfind("./筆", _NS):
@@ -148,6 +147,8 @@ def _parse_features(
             "市区町村名": None,
             "座標系": None,
             "測地系判別": None,
+            "代表点経度": None,
+            "代表点緯度": None,
         }
         geometry = None
         for entry in fude:
@@ -155,19 +156,20 @@ def _parse_features(
             if key == "形状":
                 coordinates = surfaces[entry.attrib["idref"]]
                 geometry = {"type": "MultiPolygon", "coordinates": coordinates}
-                rep_point = shapely.MultiPolygon(
-                    (p[0], p[1:]) for p in coordinates
-                ).point_on_surface()
-                properties["代表点経度"] = rep_point.x
-                properties["代表点緯度"] = rep_point.y
+                # rep_point = shapely.MultiPolygon(
+                #     (p[0], p[1:]) for p in coordinates
+                # ).point_on_surface()
+                # properties["代表点経度"] = rep_point.x
+                # properties["代表点緯度"] = rep_point.y
             else:
                 value = entry.text
                 properties[key] = value
 
-        # 地番が地区外や別図の場合はスキップする
-        chiban = properties.get("地番", "")
-        if "地区外" in chiban or "別図" in chiban:
-            continue
+        if not include_chikugai:
+            # 地番が地区外や別図の場合はスキップする
+            chiban = properties.get("地番", "")
+            if "地区外" in chiban or "別図" in chiban:
+                continue
 
         features.append(
             {"type": "Feature", "geometry": geometry, "properties": properties}
@@ -176,7 +178,9 @@ def _parse_features(
     return features
 
 
-def parse_raw(content: bytes) -> list[Feature]:
+def parse_raw(
+    content: bytes, include_arbitrary_crs: bool = False, include_chikugai: bool = False
+) -> list[Feature]:
     """TODO:"""
     doc = et.fromstring(content, None)
 
@@ -185,10 +189,8 @@ def parse_raw(content: bytes) -> list[Feature]:
     source_crs = CRS_MAP[doc.find("./座標系", _NS).text]
 
     # 任意座標系の場合はスキップ（とりあえず）
-    if source_crs is None:
+    if (not include_arbitrary_crs) and source_crs is None:
         return []
-
-    _logger.info(f"parsing {base_props['地図名']}...")
 
     spatial_elem = doc.find("./空間属性", _NS)
     points = _parse_points(spatial_elem)
@@ -199,8 +201,16 @@ def parse_raw(content: bytes) -> list[Feature]:
         transformer = pyproj.Transformer.from_crs(
             source_crs, "epsg:4326", always_xy=True
         )
+        curve_ids: list[str] = []
+        xx: list[float] = []
+        yy: list[float] = []
         for curve_id, (x, y) in curves.items():
-            curves[curve_id] = transformer.transform(y, x)
+            curve_ids.append(curve_id)
+            xx.append(x)
+            yy.append(y)
+        (xx, yy) = transformer.transform(yy, xx)
+        for curve_id, x, y in zip(curve_ids, xx, yy):
+            curves[curve_id] = (x, y)
 
     # 小数点以下9ケタに丸める
     for curve_id, (x, y) in curves.items():
@@ -225,7 +235,9 @@ def parse_raw(content: bytes) -> list[Feature]:
     #         fude_to_zukakus[fude_id] = zukaku
 
     subject_elem = doc.find("./主題属性", _NS)
-    features = _parse_features(subject_elem, surfaces)
+    features = _parse_features(
+        subject_elem, surfaces, include_chikugai=include_chikugai
+    )
 
     # XMLのルート要素にある属性情報をFeatureのプロパティに追加する
     for feature in features:

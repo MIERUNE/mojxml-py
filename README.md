@@ -23,19 +23,24 @@ pip3 install mojxml
 ## コマンドラインインタフェース
 
 ```
-Usage: mojxml2ogr [OPTIONS] DST_FILE SRC_FILES...
+Usage: python -m mojxml [OPTIONS] DST_FILE SRC_FILES...
 
   Convert MoJ XMLs to GeoJSON/GeoPackage/FlatGeobuf/etc.
 
   DST_FILE: output filename (.geojson, .gpkg, .fgb, etc.)
 
   SRC_FILES: one or more .xml/.zip files
+
+Options:
+  --worker [multiprocess|thread|single]
+                                  [default: multiprocess]
+  -a, --arbitrary                 Include 任意座標系
+  -c, --chikugai                  Include 地区外 and 別図
 ```
 
-### 使用例
+出力形式は拡張子で判断されます。
 
-- 出力形式は拡張子で判断されます。
-- 任意座標系のXMLファイルは無視します（今後オプションを追加）。
+### 使用例
 
 ```bash
 # XMLファイルをGeoJSONに変換
