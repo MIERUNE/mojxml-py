@@ -139,6 +139,7 @@ def _parse_features(
             "予備コード": None,
             "大字名": None,
             "丁目名": None,
+            "小字名": None,
             "地番": None,
             "座標値種別": None,
             "筆界未定構成筆": None,
