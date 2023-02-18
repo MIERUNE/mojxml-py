@@ -5,7 +5,8 @@ from pathlib import Path
 
 import click
 
-from .process import process_file, ProcessOptions
+from .parse import ParseOptions
+from .process import files_to_ogr_file
 from .process.executor import EXECUTOR_MAP
 
 
@@ -55,14 +56,14 @@ def main(
     root_logger.addHandler(handler)
     root_logger.setLevel(logging.INFO)
 
-    options = ProcessOptions(
-        executor=EXECUTOR_MAP[worker](),
+    options = ParseOptions(
         include_arbitrary_crs=arbitrary,
         include_chikugai=chikugai,
     )
+    executor = EXECUTOR_MAP[worker](options)
 
     # Process files
-    process_file(src_paths=src_files, dst_path=dst_file, options=options)
+    files_to_ogr_file(src_paths=src_files, dst_path=dst_file, executor=executor)
 
 
 if __name__ == "__main__":

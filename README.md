@@ -2,9 +2,9 @@
 
 [![Test](https://github.com/MIERUNE/mojxml-py/actions/workflows/test.yaml/badge.svg)](https://github.com/MIERUNE/mojxml-py/actions/workflows/test.yaml) [![PyPI Package](https://img.shields.io/pypi/v/mojxml?color=%2334D058&label=PyPI%20package)](https://pypi.org/project/mojxml)
 
-法務省登記所備付地図データ（地図XML）を各種GISデータ形式 (GeoJSON, GeoPackage, FlatGeobuf, etc.) に変換するコマンドラインツールです。地図XMLを読み込むためのPythonライブラリとしても使用できます。
+法務省登記所備付地図データ（地図XML）を各種GISデータ形式 (GeoJSON, GeoPackage, FlatGeobuf, etc.) に変換するコマンドラインツールです。地図XMLを読み込むためのPythonライブラリとしての使用も想定しています。
 
-XMLパーサとして [lxml](https://github.com/lxml/lxml) (libxml2) を使用することで、デジタル庁の [mojxml2geojson](https://github.com/JDA-DM/mojxml2geojson) よりも高速な変換を実現しています。
+XMLパーサとして [lxml](https://github.com/lxml/lxml) (libxml2) を使用することで、デジタル庁の [mojxml2geojson](https://github.com/JDA-DM/mojxml2geojson) よりも高速な処理を実現しています。
 
 ## インストール
 
@@ -59,6 +59,6 @@ Options:
 # 3つのzipファイルをまとめて1つのFlatGeobufに変換
 ❯ mojxml2ogr output.fgb 01202-4400.zip 01236-4400.zip 01337-4400.zip
 
-# zipファイルを1段階展開して出てくる.zipファイルのうち100個をFlatGeobufに変換
+# zipファイルを1段階展開して出てくるZipファイルも与えることができます
 ❯ mojxml2ogr output.fgb 15222-1107-15*.zip
 ```

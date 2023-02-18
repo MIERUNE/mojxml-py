@@ -2,7 +2,9 @@
 
 from pathlib import Path
 
-from mojxml.process import process_file, ProcessOptions
+from mojxml.process import files_to_ogr_file
+from mojxml.process.executor import ProcessPoolExecutor
+from mojxml.parse import ParseOptions
 
 
 def test_process():
@@ -10,5 +12,6 @@ def test_process():
     src_path = Path("testdata") / "15222-1107-1553.xml"
     dst_path = src_path.with_suffix(".geojson")
 
-    options = ProcessOptions()
-    process_file([src_path], dst_path, options=options)
+    options = ParseOptions()
+    executor = ProcessPoolExecutor(options)
+    files_to_ogr_file([src_path], dst_path, executor)

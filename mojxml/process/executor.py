@@ -1,50 +1,47 @@
-"""Convert .xml/.zip files to OGR format."""
+"""Run conversion in parallel."""
 
-import os
-from typing import Iterable
 import concurrent.futures
+import os
+from abc import abstractmethod, ABCMeta
+from typing import Iterable
 
-from abc import ABCMeta, abstractmethod
-
-from ..parse import parse_raw, Feature
+from ..parse import Feature, ParseOptions, parse_raw
 
 
 class BaseExecutor(metaclass=ABCMeta):
     """Executor for processing files"""
 
+    def __init__(self, options: ParseOptions):
+        """TODO"""
+        self.options = options
+
     @abstractmethod
-    def process(
+    def iter_process(
         self,
         src_iter: Iterable[bytes],
-        include_chikugai: bool,
-        include_arbitrary_crs: bool,
     ) -> Iterable[list[Feature]]:
         """TODO"""
         ...
 
 
-class ProcessPoolExecutor(BaseExecutor):
-    """Process files with ProcessPoolExecutor"""
+class WorkerPoolExecutor(BaseExecutor, metaclass=ABCMeta):
+    """TODO"""
 
-    def process(
+    @abstractmethod
+    def get_executor(self, max_workers: int) -> concurrent.futures.Executor:
+        """TODO"""
+        ...
+
+    def iter_process(
         self,
         src_iter: Iterable[bytes],
-        include_chikugai: bool,
-        include_arbitrary_crs: bool,
     ) -> Iterable[list[Feature]]:
         """TODO"""
         max_workers = os.cpu_count() or 1
-        with concurrent.futures.ProcessPoolExecutor(
-            max_workers=max_workers
-        ) as executor:
+        with self.get_executor(max_workers=max_workers) as executor:
             futs = []
             for src in src_iter:
-                fut = executor.submit(
-                    parse_raw,
-                    src,
-                    include_chikugai=include_chikugai,
-                    include_arbitrary_crs=include_arbitrary_crs,
-                )
+                fut = executor.submit(parse_raw, src, self.options)
                 futs.append(fut)
                 if len(futs) >= max_workers:
                     (done, not_done) = concurrent.futures.wait(
@@ -62,63 +59,37 @@ class ProcessPoolExecutor(BaseExecutor):
                     yield fut.result()
 
 
-class ThreadPoolExecutor(BaseExecutor):
-    """Process files with ThreadPoolExecutor"""
+class ProcessPoolExecutor(WorkerPoolExecutor):
+    """Process paralelly with ProcessPoolExecutor"""
 
-    def process(
-        self,
-        src_iter: Iterable[bytes],
-        include_chikugai: bool,
-        include_arbitrary_crs: bool,
-    ) -> Iterable[list[Feature]]:
+    def get_executor(self, max_workers: int) -> concurrent.futures.Executor:
         """TODO"""
+        max_workers = os.cpu_count() or 1
+        return concurrent.futures.ProcessPoolExecutor(max_workers=max_workers)
 
+
+class ThreadPoolExecutor(WorkerPoolExecutor):
+    """Process paralelly with ThreadPoolExecutor"""
+
+    def get_executor(self, max_workers: int) -> concurrent.futures.Executor:
+        """TODO"""
         max_workers = (os.cpu_count() or 1) * 2
-        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futs = []
-            for src in src_iter:
-                fut = executor.submit(
-                    parse_raw,
-                    src,
-                    include_chikugai=include_chikugai,
-                    include_arbitrary_crs=include_arbitrary_crs,
-                )
-                futs.append(fut)
-                if len(futs) >= max_workers:
-                    (done, not_done) = concurrent.futures.wait(
-                        futs, return_when=concurrent.futures.FIRST_COMPLETED
-                    )
-                    for fut in done:
-                        yield fut.result()
-                    futs = list(not_done)
-
-            if futs:
-                (done, not_done) = concurrent.futures.wait(
-                    futs, return_when=concurrent.futures.ALL_COMPLETED
-                )
-                for fut in done:
-                    yield fut.result()
+        return concurrent.futures.ThreadPoolExecutor(max_workers=max_workers)
 
 
 class SingleThreadExecutor(BaseExecutor):
     """Process files with normal iterator"""
 
-    def process(
+    def iter_process(
         self,
         src_iter: Iterable[bytes],
-        include_chikugai: bool,
-        include_arbitrary_crs: bool,
     ) -> Iterable[list[Feature]]:
         """TODO"""
         for src in src_iter:
-            yield parse_raw(
-                src,
-                include_chikugai=include_chikugai,
-                include_arbitrary_crs=include_arbitrary_crs,
-            )
+            yield parse_raw(src, options=self.options)
 
 
-EXECUTOR_MAP = {
+EXECUTOR_MAP: dict[str, type[BaseExecutor]] = {
     "multiprocess": ProcessPoolExecutor,
     "thread": ThreadPoolExecutor,
     "single": SingleThreadExecutor,

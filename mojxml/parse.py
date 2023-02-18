@@ -1,11 +1,11 @@
 """Parse MoJ XML files"""
 
-import logging
 from typing import TypedDict
+from dataclasses import dataclass
 
 import lxml.etree as et
 import pyproj
-import shapely
+from shapely.geometry import MultiPolygon
 
 from .constants import CRS_MAP
 from .constants import XML_NAMESPACES as _NS
@@ -14,7 +14,13 @@ Point = tuple[float, float]
 Curve = tuple[float, float]
 Surface = list[list[list[tuple[float, float]]]]
 
-_logger = logging.getLogger(__name__)
+
+@dataclass
+class ParseOptions:
+    """Options for parsing XMLs"""
+
+    include_arbitrary_crs: bool = False
+    include_chikugai: bool = False
 
 
 class Feature(TypedDict):
@@ -157,9 +163,9 @@ def _parse_features(
             if key == "形状":
                 coordinates = surfaces[entry.attrib["idref"]]
                 geometry = {"type": "MultiPolygon", "coordinates": coordinates}
-                rep_point = shapely.MultiPolygon(
+                rep_point = MultiPolygon(
                     (p[0], p[1:]) for p in coordinates
-                ).point_on_surface()
+                ).representative_point()
                 properties["代表点経度"] = rep_point.x
                 properties["代表点緯度"] = rep_point.y
             else:
@@ -179,9 +185,7 @@ def _parse_features(
     return features
 
 
-def parse_raw(
-    content: bytes, include_arbitrary_crs: bool = False, include_chikugai: bool = False
-) -> list[Feature]:
+def parse_raw(content: bytes, options: ParseOptions) -> list[Feature]:
     """TODO:"""
     doc = et.fromstring(content, None)
 
@@ -190,7 +194,7 @@ def parse_raw(
     source_crs = CRS_MAP[doc.find("./座標系", _NS).text]
 
     # 任意座標系の場合はスキップ（とりあえず）
-    if (not include_arbitrary_crs) and source_crs is None:
+    if (not options.include_arbitrary_crs) and source_crs is None:
         return []
 
     spatial_elem = doc.find("./空間属性", _NS)
@@ -237,7 +241,7 @@ def parse_raw(
 
     subject_elem = doc.find("./主題属性", _NS)
     features = _parse_features(
-        subject_elem, surfaces, include_chikugai=include_chikugai
+        subject_elem, surfaces, include_chikugai=options.include_chikugai
     )
 
     # XMLのルート要素にある属性情報をFeatureのプロパティに追加する
