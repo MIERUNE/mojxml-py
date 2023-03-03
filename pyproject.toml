@@ -47,5 +47,4 @@ docstring-convention = "google"
 
 [tool.coverage.run]
 source = ['mojxml']
-omit = ['**/__main__.py']
 concurrency = ["multiprocessing"]
