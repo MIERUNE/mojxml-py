@@ -37,22 +37,19 @@ jobs:
 
     - name: Ensure cache is healthy
       if: steps.cache.outputs.cache-hit == 'true'
-      shell: bash
       run: poetry run pip --version >/dev/null 2>&1 || rm -rf .venv
 
     - name: Install dependencies
-      shell: bash
       run: poetry install
 
     - name: Run pytest
-      shell: bash
-      run: poetry run pytest --cov --cov-report=xml
+      run: poetry run pytest -v --cov --cov-report xml --cov-report term
 
-    # - name: Upload coverage
-    #   uses: codecov/codecov-action@v1
-    #   with:
-    #     #token: ${{ secrets.CODECOV_TOKEN }}
-    #     file: ./coverage.xml
-    #     flags: unittests
-    #     env_vars: OS,PYTHON
-    #     fail_ci_if_error: true
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        #token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage.xml
+        flags: unittests
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
