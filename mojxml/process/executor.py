@@ -21,7 +21,6 @@ class BaseExecutor(metaclass=ABCMeta):
         src_iter: Iterable[bytes],
     ) -> Iterable[list[Feature]]:
         """TODO"""
-        ...
 
 
 class WorkerPoolExecutor(BaseExecutor, metaclass=ABCMeta):
@@ -30,7 +29,6 @@ class WorkerPoolExecutor(BaseExecutor, metaclass=ABCMeta):
     @abstractmethod
     def get_executor(self, max_workers: int) -> concurrent.futures.Executor:
         """TODO"""
-        ...
 
     def iter_process(
         self,

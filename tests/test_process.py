@@ -3,7 +3,11 @@
 from pathlib import Path
 
 from mojxml.process import files_to_ogr_file, files_to_feature_iter
-from mojxml.process.executor import ProcessPoolExecutor
+from mojxml.process.executor import (
+    ProcessPoolExecutor,
+    SingleThreadExecutor,
+    ThreadPoolExecutor,
+)
 from mojxml.parse import ParseOptions
 
 _FILENAMES = {
@@ -23,9 +27,17 @@ def test_process():
     for filename in _FILENAMES:
         src_path = Path("testdata") / filename
         dst_path = src_path.with_suffix(".geojson")
-
         options = ParseOptions()
         executor = ProcessPoolExecutor(options)
+        files_to_ogr_file([src_path], dst_path, executor)
+
+
+def test_executors():
+    for executor_cls in [ThreadPoolExecutor, SingleThreadExecutor]:
+        src_path = Path("testdata") / "15222-1107-1553.xml"
+        dst_path = src_path.with_suffix(".geojson")
+        options = ParseOptions()
+        executor = executor_cls(options)
         files_to_ogr_file([src_path], dst_path, executor)
 
 

@@ -54,7 +54,7 @@ def _parse_points(spatial_elem: et._Element) -> dict[str, Point]:
             elif xy.tag == "{http://www.moj.go.jp/MINJI/tizuzumen}Y":
                 y = float(xy.text)
             else:
-                raise ValueError(f"Unknown tag: {xy.tag}")
+                raise ValueError(f"Unknown tag: {xy.tag}")  # pragma: no cover
         assert x is not None and y is not None
         point_id = point.attrib["id"]
         points[point_id] = (x, y)
@@ -89,9 +89,9 @@ def _parse_curves(
                 elif xy.tag == "{http://www.moj.go.jp/MINJI/tizuzumen}Y":
                     y = float(xy.text)
                 else:
-                    raise ValueError(f"Unknown tag: {xy.tag}")
+                    raise ValueError(f"Unknown tag: {xy.tag}")  # pragma: no cover
         else:
-            raise ValueError(f"Unknown tag: {pos.tag}")
+            raise ValueError(f"Unknown tag: {pos.tag}")  # pragma: no cover
 
         curve_id = curve.attrib["id"]
         assert x is not None and y is not None

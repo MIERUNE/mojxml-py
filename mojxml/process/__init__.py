@@ -6,8 +6,8 @@ from typing import Iterable, Optional
 
 try:
     import fiona
-except:
-    fiona = None
+except ImportError:  # pragma: no cover
+    fiona = None  # pragma: no cover
 
 from ..reader import iter_content_xmls
 from ..schema import OGR_SCHEMA
