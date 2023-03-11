@@ -29,6 +29,7 @@ isort = "^5.12.0"
 pyproject-flake8 = "^6.0.0.post1"
 pytest = "^7.2.1"
 pytest-cov = "^4.0.0"
+pyright = "^1.1.298"
 
 [build-system]
 requires = ["poetry-core"]
