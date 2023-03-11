@@ -1,6 +1,6 @@
 # mojxml-py
 
-[![Test](https://github.com/MIERUNE/mojxml-py/actions/workflows/test.yaml/badge.svg)](https://github.com/MIERUNE/mojxml-py/actions/workflows/test.yaml) [![PyPI Package](https://img.shields.io/pypi/v/mojxml?color=%2334D058&label=PyPI%20package)](https://pypi.org/project/mojxml) [![codecov](https://codecov.io/gh/MIERUNE/mojxml-py/branch/main/graph/badge.svg?token=mkeysxV2xy)](https://codecov.io/gh/MIERUNE/mojxml-py)
+[![Test](https://github.com/MIERUNE/mojxml-py/actions/workflows/test.yml/badge.svg)](https://github.com/MIERUNE/mojxml-py/actions/workflows/test.yml) [![PyPI Package](https://img.shields.io/pypi/v/mojxml?color=%2334D058&label=PyPI%20package)](https://pypi.org/project/mojxml) [![codecov](https://codecov.io/gh/MIERUNE/mojxml-py/branch/main/graph/badge.svg?token=mkeysxV2xy)](https://codecov.io/gh/MIERUNE/mojxml-py)
 
 法務省登記所備付地図データ（地図XML）を各種GISデータ形式 (GeoJSON, GeoPackage, FlatGeobuf, etc.) に変換するコマンドラインツールです。地図XMLを読み込むためのPythonライブラリとしての使用も想定しています。
 
