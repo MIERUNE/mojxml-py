@@ -1,7 +1,7 @@
 """Parse MoJ XML files"""
 
-from typing import TypedDict
 from dataclasses import dataclass
+from typing import TypedDict
 
 import lxml.etree as et
 import pyproj

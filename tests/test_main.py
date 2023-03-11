@@ -1,10 +1,12 @@
 """Tests for __main__.py"""
 
-from mojxml.__main__ import main
 from click.testing import CliRunner
+
+from mojxml.__main__ import main
 
 
 def test_main():
+    """Basic run"""
     runner = CliRunner()
     result = runner.invoke(
         main,
@@ -19,6 +21,7 @@ def test_main():
 
 
 def test_main_arbitrary():
+    """Run with --arbitrary"""
     runner = CliRunner()
     result = runner.invoke(
         main,
@@ -33,6 +36,7 @@ def test_main_arbitrary():
 
 
 def test_main_chikugai():
+    """Run with --chikugai"""
     runner = CliRunner()
     result = runner.invoke(
         main,

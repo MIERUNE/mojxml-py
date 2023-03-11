@@ -9,10 +9,10 @@ try:
 except ImportError:  # pragma: no cover
     fiona = None  # pragma: no cover
 
+from ..parse import Feature
 from ..reader import iter_content_xmls
 from ..schema import OGR_SCHEMA
 from .executor import BaseExecutor
-from ..parse import Feature
 
 _logger = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ def files_to_ogr_file(
 
     num_files = 0
     num_features = 0
-    for (num_files, num_features) in _write_by_fiona(
+    for num_files, num_features in _write_by_fiona(
         features_iter,
         dst_path,
         driver=driver,

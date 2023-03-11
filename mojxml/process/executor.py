@@ -2,7 +2,7 @@
 
 import concurrent.futures
 import os
-from abc import abstractmethod, ABCMeta
+from abc import ABCMeta, abstractmethod
 from typing import Iterable
 
 from ..parse import Feature, ParseOptions, parse_raw

@@ -2,13 +2,13 @@
 
 from pathlib import Path
 
-from mojxml.process import files_to_ogr_file, files_to_feature_iter
+from mojxml.parse import ParseOptions
+from mojxml.process import files_to_feature_iter, files_to_ogr_file
 from mojxml.process.executor import (
     ProcessPoolExecutor,
     SingleThreadExecutor,
     ThreadPoolExecutor,
 )
-from mojxml.parse import ParseOptions
 
 _FILENAMES = {
     "12103-0400.zip": {
@@ -24,6 +24,7 @@ _FILENAMES = {
 
 
 def test_process():
+    """Run process"""
     for filename in _FILENAMES:
         src_path = Path("testdata") / filename
         dst_path = src_path.with_suffix(".geojson")
@@ -33,6 +34,7 @@ def test_process():
 
 
 def test_executors():
+    """Test several executors"""
     for executor_cls in [ThreadPoolExecutor, SingleThreadExecutor]:
         src_path = Path("testdata") / "15222-1107-1553.xml"
         dst_path = src_path.with_suffix(".geojson")
@@ -42,6 +44,7 @@ def test_executors():
 
 
 def test_iter_features():
+    """Test iter_features"""
     for filename, props in _FILENAMES.items():
         src_path = Path("testdata") / filename
 
@@ -54,6 +57,7 @@ def test_iter_features():
 
 
 def test_iter_features_arbitrary():
+    """Test iter_features with the arbitrary option"""
     filename = "12103-0400.zip"
     src_path = Path("testdata") / filename
 
@@ -66,6 +70,7 @@ def test_iter_features_arbitrary():
 
 
 def test_iter_features_chikugai():
+    """Test iter_features with the chikugai option"""
     filename = "12103-0400.zip"
     src_path = Path("testdata") / filename
 

@@ -1,8 +1,8 @@
 """xmlおよびzipファイルを透過的に扱う"""
 
-from zipfile import ZipFile
 from pathlib import Path
 from typing import Iterable
+from zipfile import ZipFile
 
 
 def iter_content_xmls(src_paths: list[Path]) -> Iterable[bytes]:
