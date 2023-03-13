@@ -36,6 +36,9 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
+      - name: Check poetry.lock
+        run: poetry lock --check
+
       - name: pyright
         run: poetry run pyright .
 

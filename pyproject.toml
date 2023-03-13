@@ -44,8 +44,8 @@ profile = "black"
 
 [tool.flake8]
 exclude = ".venv"
-extend-select = "B,C,E,F,W,D,B950"
-extend-ignore = "E203,B008,D415,D400,D104"
+extend-select = "B950"
+extend-ignore = "E203,E501,B008,D104,D400,D415"
 max-line-length = 88
 docstring-convention = "google"
 
