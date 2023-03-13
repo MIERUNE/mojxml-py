@@ -11,7 +11,10 @@ packages = [{ include = "mojxml", from = "src" }]
 include = [{ path = "tests", format = "sdist" }]
 classifiers = [
     "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Intended Audience :: Science/Research",
 ]
 
 [tool.poetry.scripts]
