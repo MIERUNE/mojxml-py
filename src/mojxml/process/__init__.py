@@ -2,7 +2,7 @@
 
 import logging
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Iterable, List, Optional, Tuple
 
 try:
     import fiona
@@ -18,10 +18,10 @@ _logger = logging.getLogger(__name__)
 
 
 def _write_by_fiona(
-    features_iter: Iterable[list[Feature]],
+    features_iter: Iterable[List[Feature]],
     dst_path: Path,
     driver: Optional[str] = None,
-) -> Iterable[tuple[int, int]]:  # (num_files, num_features)
+) -> Iterable[Tuple[int, int]]:  # (num_files, num_features)
     """WIP"""
     assert fiona, "fiona is not installed"
 
@@ -42,7 +42,7 @@ def _write_by_fiona(
 
 
 def files_to_ogr_file(
-    src_paths: list[Path],
+    src_paths: List[Path],
     dst_path: Path,
     executor: BaseExecutor,
     driver: Optional[str] = None,
@@ -65,7 +65,7 @@ def files_to_ogr_file(
 
 
 def files_to_feature_iter(
-    src_paths: list[Path], executor: BaseExecutor
+    src_paths: List[Path], executor: BaseExecutor
 ) -> Iterable[Feature]:
     """WIP"""
     features_iter = executor.iter_process(iter_content_xmls(src_paths))

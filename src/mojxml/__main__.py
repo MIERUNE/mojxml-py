@@ -2,6 +2,7 @@
 
 import logging
 from pathlib import Path
+from typing import List
 
 import click
 
@@ -41,7 +42,7 @@ from .process.executor import EXECUTOR_MAP
     help="Include 地区外 and 別図",
 )
 def main(
-    dst_file: Path, src_files: list[Path], worker: str, arbitrary: bool, chikugai: bool
+    dst_file: Path, src_files: List[Path], worker: str, arbitrary: bool, chikugai: bool
 ) -> None:
     """Convert MoJ XMLs to GeoJSON/GeoPackage/FlatGeobuf/etc.
 

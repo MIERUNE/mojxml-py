@@ -1,11 +1,12 @@
 """Schema for OGR"""
 
+import typing
 from collections import OrderedDict
 from typing import TypedDict
 
 
 class _SchemaType(TypedDict):
-    properties: OrderedDict[str, str]
+    properties: typing.OrderedDict[str, str]
     geometry: str
 
 

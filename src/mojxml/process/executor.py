@@ -3,7 +3,7 @@
 import concurrent.futures
 import os
 from abc import ABCMeta, abstractmethod
-from typing import Iterable
+from typing import Dict, Iterable, List, Type
 
 from ..parse import Feature, ParseOptions, parse_raw
 
@@ -19,7 +19,7 @@ class BaseExecutor(metaclass=ABCMeta):
     def iter_process(
         self,
         src_iter: Iterable[bytes],
-    ) -> Iterable[list[Feature]]:
+    ) -> Iterable[List[Feature]]:
         """TODO"""
 
 
@@ -33,7 +33,7 @@ class WorkerPoolExecutor(BaseExecutor, metaclass=ABCMeta):
     def iter_process(
         self,
         src_iter: Iterable[bytes],
-    ) -> Iterable[list[Feature]]:
+    ) -> Iterable[List[Feature]]:
         """TODO"""
         max_workers = os.cpu_count() or 1
         with self.get_executor(max_workers=max_workers) as executor:
@@ -81,13 +81,13 @@ class SingleThreadExecutor(BaseExecutor):
     def iter_process(
         self,
         src_iter: Iterable[bytes],
-    ) -> Iterable[list[Feature]]:
+    ) -> Iterable[List[Feature]]:
         """TODO"""
         for src in src_iter:
             yield parse_raw(src, options=self.options)
 
 
-EXECUTOR_MAP: dict[str, type[BaseExecutor]] = {
+EXECUTOR_MAP: Dict[str, Type[BaseExecutor]] = {
     "multiprocess": ProcessPoolExecutor,
     "thread": ThreadPoolExecutor,
     "single": SingleThreadExecutor,

@@ -1,7 +1,7 @@
 """Parse MoJ XML files"""
 
 from dataclasses import dataclass
-from typing import TypedDict
+from typing import Dict, List, Tuple, TypedDict
 
 import lxml.etree as et
 import pyproj
@@ -10,9 +10,9 @@ from shapely.geometry import MultiPolygon
 from .constants import CRS_MAP
 from .constants import XML_NAMESPACES as _NS
 
-Point = tuple[float, float]
-Curve = tuple[float, float]
-Surface = list[list[list[tuple[float, float]]]]
+Point = Tuple[float, float]
+Curve = Tuple[float, float]
+Surface = List[List[List[Tuple[float, float]]]]
 
 
 @dataclass
@@ -27,11 +27,11 @@ class Feature(TypedDict):
     """GeoJSON Feature"""
 
     type: str
-    geometry: dict[str, list]
-    properties: dict[str, object]
+    geometry: Dict[str, list]
+    properties: Dict[str, object]
 
 
-def _parse_base_properties(root: et._Element) -> dict[str, object]:
+def _parse_base_properties(root: et._Element) -> Dict[str, object]:
     crs_det_elem = root.find("./測地系判別", _NS)
     return {
         "地図名": root.find("./地図名", _NS).text,
@@ -42,8 +42,8 @@ def _parse_base_properties(root: et._Element) -> dict[str, object]:
     }
 
 
-def _parse_points(spatial_elem: et._Element) -> dict[str, Point]:
-    points: dict[str, Point] = {}
+def _parse_points(spatial_elem: et._Element) -> Dict[str, Point]:
+    points: Dict[str, Point] = {}
     for point in spatial_elem.iterfind("./zmn:GM_Point", _NS):
         pos = point.find(".//zmn:DirectPosition", _NS)
         x = None
@@ -63,9 +63,9 @@ def _parse_points(spatial_elem: et._Element) -> dict[str, Point]:
 
 
 def _parse_curves(
-    spatial_elem: et._Element, points: dict[str, Point]
-) -> dict[str, Curve]:
-    curves: dict[str, Curve] = {}
+    spatial_elem: et._Element, points: Dict[str, Point]
+) -> Dict[str, Curve]:
+    curves: Dict[str, Curve] = {}
     for curve in spatial_elem.iterfind("./zmn:GM_Curve", _NS):
         segments = curve.findall("./zmn:GM_Curve.segment", _NS)
         assert len(segments) == 1
@@ -103,9 +103,9 @@ def _parse_curves(
 
 
 def _parse_surfaces(
-    spatial_elem: et._Element, curves: dict[str, Curve]
-) -> dict[str, Surface]:
-    surfaces: dict[str, Surface] = {}
+    spatial_elem: et._Element, curves: Dict[str, Curve]
+) -> Dict[str, Surface]:
+    surfaces: Dict[str, Surface] = {}
     for surface in spatial_elem.iterfind("./zmn:GM_Surface", _NS):
         assert surface.find(".//zmn:GM_SurfaceBoundary.exterior", _NS) is not None
         polygons = surface.findall("./zmn:GM_Surface.patch/zmn:GM_Polygon", _NS)
@@ -129,8 +129,8 @@ def _parse_surfaces(
 
 
 def _parse_features(
-    subject_elem: et._Element, surfaces: dict[str, Surface], include_chikugai: bool
-) -> list[Feature]:
+    subject_elem: et._Element, surfaces: Dict[str, Surface], include_chikugai: bool
+) -> List[Feature]:
     features = []
     for fude in subject_elem.iterfind("./筆", _NS):
         fude_id = fude.attrib["id"]
@@ -185,7 +185,7 @@ def _parse_features(
     return features
 
 
-def parse_raw(content: bytes, options: ParseOptions) -> list[Feature]:
+def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
     """TODO:"""
     doc = et.fromstring(content, None)
 

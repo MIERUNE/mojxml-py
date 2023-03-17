@@ -1,11 +1,11 @@
 """xmlおよびzipファイルを透過的に扱う"""
 
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, List
 from zipfile import ZipFile
 
 
-def iter_content_xmls(src_paths: list[Path]) -> Iterable[bytes]:
+def iter_content_xmls(src_paths: List[Path]) -> Iterable[bytes]:
     """WIP"""
     for src_path in src_paths:
         src_path = Path(src_path)
