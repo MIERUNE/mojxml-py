@@ -1,14 +1,14 @@
 """定数値"""
 
-from typing import Optional
+from typing import Mapping, Optional
 
-XML_NAMESPACES: dict[Optional[str], str] = {
+XML_NAMESPACES: Mapping[Optional[str], str] = {
     None: "http://www.moj.go.jp/MINJI/tizuxml",
     "zmn": "http://www.moj.go.jp/MINJI/tizuzumen",
     "xsi": "http://www.w3.org/2001/XMLSchema-instance",
 }
 
-CRS_MAP: dict[str, Optional[str]] = {
+CRS_MAP: Mapping[str, Optional[str]] = {
     "任意座標系": None,
     "公共座標1系": "epsg:2443",
     "公共座標2系": "epsg:2444",

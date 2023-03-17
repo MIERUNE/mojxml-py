@@ -21,7 +21,7 @@ classifiers = [
 mojxml2ogr = 'mojxml.__main__:main'
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.8.7,<4.0"
 lxml = "^4.9.2"
 pyproj = "^3.4.1"
 shapely = "^2.0.1"
