@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mojxml"
-version = "0.1.0"
+version = "0.2.0"
 description = "法務省登記所備付地図データ（地図XML）を読みこむためのPythonライブラリおよび変換用コマンドラインツール"
 authors = ["MIERUNE Inc. <info@mierune.co.jp>"]
 readme = "README.md"
