@@ -186,7 +186,7 @@ def _parse_features(
 
 
 def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
-    """TODO:"""
+    """Parse raw XML content and get list of features."""
     doc = et.fromstring(content, None)
 
     # 基本情報を取得
