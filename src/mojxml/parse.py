@@ -1,4 +1,4 @@
-"""Parse MoJ XML files"""
+"""Parse MOJ MAP XML files"""
 
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, TypedDict
@@ -186,14 +186,13 @@ def _parse_features(
 
 
 def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
-    """Parse raw XML content and get list of features."""
+    """Parse raw XML content and get a list of features."""
     doc = et.fromstring(content, None)
 
     # 基本情報を取得
     base_props = _parse_base_properties(doc)
     source_crs = CRS_MAP[doc.find("./座標系", _NS).text]
 
-    # 任意座標系の場合はスキップ（とりあえず）
     if (not options.include_arbitrary_crs) and source_crs is None:
         return []
 
@@ -226,8 +225,9 @@ def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
 
     surfaces = _parse_surfaces(spatial_elem, curves)
 
-    # Note: 図郭についてはデジタル庁の実装もなんだか変な気がするので一旦扱わない
-    # (筆には複数の図郭が結びつく場合があるが、それを考慮できていない)
+    # Note: 図郭についてはひとまず扱わないことにする。
+    # デジタル庁の実装は筆に図郭の情報を付与しているのものの、これは筆に複数の図郭が結びつく場合に問題があるように思う
+    #
     # fude_to_zukakus = {}
     # for zk in doc.iterfind(".//図郭", _NS):
     #     zukaku = {

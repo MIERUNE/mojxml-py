@@ -1,4 +1,4 @@
-"""xmlおよびzipファイルを透過的に扱う"""
+"""Handle XML and ZIP sources trnsparently"""
 
 from pathlib import Path
 from typing import Iterable, List

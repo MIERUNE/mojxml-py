@@ -1,4 +1,4 @@
-"""Schema for OGR"""
+"""Schema for OGR output"""
 
 import typing
 from collections import OrderedDict

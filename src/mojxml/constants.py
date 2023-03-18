@@ -1,4 +1,4 @@
-"""定数値"""
+"""Constant values"""
 
 from typing import Mapping, Optional
 
