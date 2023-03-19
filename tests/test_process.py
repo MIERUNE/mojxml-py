@@ -11,8 +11,8 @@ from mojxml.process.executor import (
 )
 
 _FILENAMES = {
-    "12103-0400.zip": {
-        "count": 3371,
+    "14103-0200.zip": {
+        "count": 446,
     },
     "15222-1107-1553.xml": {
         "count": 1051,
@@ -23,21 +23,21 @@ _FILENAMES = {
 }
 
 
-def test_process():
+def test_process(tmp_path):
     """Run process"""
     for filename in _FILENAMES:
         src_path = Path("testdata") / filename
-        dst_path = src_path.with_suffix(".geojson")
+        dst_path = (tmp_path / src_path.stem).with_suffix(".geojson")
         options = ParseOptions()
         executor = ProcessPoolExecutor(options)
         files_to_ogr_file([src_path], dst_path, executor)
 
 
-def test_executors():
+def test_executors(tmp_path):
     """Test several executors"""
     for executor_cls in [ThreadPoolExecutor, SingleThreadExecutor]:
         src_path = Path("testdata") / "15222-1107-1553.xml"
-        dst_path = src_path.with_suffix(".geojson")
+        dst_path = (tmp_path / src_path.stem).with_suffix(".geojson")
         options = ParseOptions()
         executor = executor_cls(options)
         files_to_ogr_file([src_path], dst_path, executor)
@@ -56,9 +56,9 @@ def test_iter_features():
         assert count == props["count"]
 
 
-def test_iter_features_arbitrary():
+def test_iter_features_arbitrary_crs():
     """Test iter_features with the arbitrary option"""
-    filename = "12103-0400.zip"
+    filename = "14103-0200.zip"
     src_path = Path("testdata") / filename
 
     options = ParseOptions(include_arbitrary_crs=True)
@@ -66,12 +66,12 @@ def test_iter_features_arbitrary():
     count = 0
     for _ in files_to_feature_iter([src_path], executor):
         count += 1
-    assert count == 71073
+    assert count == 27237
 
 
 def test_iter_features_chikugai():
     """Test iter_features with the chikugai option"""
-    filename = "12103-0400.zip"
+    filename = "14103-0200.zip"
     src_path = Path("testdata") / filename
 
     options = ParseOptions(include_chikugai=True, include_arbitrary_crs=True)
@@ -83,5 +83,5 @@ def test_iter_features_chikugai():
         chiban = str(feature["properties"]["地番"])
         if "地区外" in chiban or "別図" in chiban:
             found_chikugai = True
-    assert count == 71103
+    assert count == 27247
     assert found_chikugai

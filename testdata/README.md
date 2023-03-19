@@ -1,7 +1,8 @@
 このディレクトリに含まれるZIPファイルおよびXMLファイルは、「登記所備付地図データ」（法務省）を、登記所備付地図データ利用規約に基づいて複製したものです。
 
-- `12103-0400-*.zip` - [千葉県千葉市稲毛区](https://www.geospatial.jp/ckan/dataset/houmusyouchizu-2022-1-631) (2022年2月1日作成版)
-- `15222-1107-1553.xml` - [新潟県上越市](https://www.geospatial.jp/ckan/dataset/houmusyouchizu-2022-1-835) (2022年2月1日作成版)
+- `14103-0200.zip` - [神奈川県横浜市西区](https://www.geospatial.jp/ckan/dataset/houmusyouchizu-2022-1-756) (2022-02-01 作成版)
+- `12103-0400-76.zip` - [千葉県千葉市稲毛区](https://www.geospatial.jp/ckan/dataset/houmusyouchizu-2022-1-631) (2022-02-01 作成版)
+- `15222-1107-1553.xml` - [新潟県上越市](https://www.geospatial.jp/ckan/dataset/houmusyouchizu-2022-1-835) (2022-02-01 作成版)
 
 
 # 登記所備付地図データ利用規約
