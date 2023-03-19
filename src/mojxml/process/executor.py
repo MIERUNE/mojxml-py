@@ -28,7 +28,7 @@ class WorkerPoolExecutor(BaseExecutor, metaclass=ABCMeta):
 
     @abstractmethod
     def _get_executor(self, max_workers: int) -> concurrent.futures.Executor:
-        ...
+        """Get executor"""
 
     def iter_process(
         self,

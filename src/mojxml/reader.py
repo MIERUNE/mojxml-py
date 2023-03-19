@@ -1,4 +1,4 @@
-"""Handle XML and ZIP sources trnsparently"""
+"""Handle XMLs and single/doule-zipped archives of MOJXML trnsparently"""
 
 from pathlib import Path
 from typing import Iterable, List
@@ -20,7 +20,7 @@ def iter_content_xmls(src_paths: List[Path]) -> Iterable[bytes]:
 
 
 class MojXMLZipFile(ZipFile):
-    """法務省登記所備付地図データの多段zip圧縮されたアーカイブを扱う"""
+    """Handles single/doule-zipped archives of MOJ XMLs transparently"""
 
     def iter_xml_contents(self):
         """Iterate XML contents from given zips"""

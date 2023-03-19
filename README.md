@@ -6,7 +6,11 @@
 
 A tool for fast conversion of Japanese "MOJ Map XML" (land registration polygons) into geospatial format, written in Python.
 
-XMLパーサとして [lxml](https://github.com/lxml/lxml) (libxml2) を使用することで、デジタル庁のリファレンス実装 ([mojxml2geojson](https://github.com/JDA-DM/mojxml2geojson)) よりも高速な変換を実現しています。また、配布されているZIPファイルをそのまま入力することもできます。
+特徴：
+
+- デジタル庁のリファレンス実装 ([mojxml2geojson](https://github.com/JDA-DM/mojxml2geojson)) よりも高速に変換できます（XMLパーサとして [lxml](https://github.com/lxml/lxml) (libxml2) を使用しています）。
+- XMLファイルだけなく、配布されているZIPファイルをそのまま入力することができます。
+- GeoJSON以外の出力形式 (GeoPackage, FlatGeobuf, etc.) に対応しています。効率的で取り回しのよい形式で作業できます。
 
 ## インストール
 

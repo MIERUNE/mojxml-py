@@ -24,7 +24,7 @@ class ParseOptions:
 
 
 class Feature(TypedDict):
-    """GeoJSON Feature"""
+    """GeoJSON-like feature representation"""
 
     type: str
     geometry: Dict[str, list]
@@ -95,7 +95,6 @@ def _parse_curves(
 
         curve_id = curve.attrib["id"]
         assert x is not None and y is not None
-        assert curve_id not in curves
 
         curves[curve_id] = (x, y)
 
@@ -189,10 +188,8 @@ def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
     """Parse raw XML content and get a list of features."""
     doc = et.fromstring(content, None)
 
-    # 基本情報を取得
-    base_props = _parse_base_properties(doc)
+    # このファイルの座標参照系を取得する
     source_crs = CRS_MAP[doc.find("./座標系", _NS).text]
-
     if (not options.include_arbitrary_crs) and source_crs is None:
         return []
 
@@ -245,6 +242,7 @@ def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
     )
 
     # XMLのルート要素にある属性情報をFeatureのプロパティに追加する
+    base_props = _parse_base_properties(doc)
     for feature in features:
         feature["properties"].update(base_props)
 
