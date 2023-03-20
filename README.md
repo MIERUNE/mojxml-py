@@ -10,7 +10,7 @@ A tool for fast conversion of Japanese "MOJ Map XML" (land registration polygons
 
 - デジタル庁のリファレンス実装 ([mojxml2geojson](https://github.com/JDA-DM/mojxml2geojson)) よりも高速に変換できます（XMLパーサとして [lxml](https://github.com/lxml/lxml) (libxml2) を使用しています）。
 - XMLファイルだけなく、配布されているZIPファイルをそのまま入力することができます。
-- GeoJSON以外の出力形式 (GeoPackage, FlatGeobuf, etc.) に対応しています。効率的で取り回しのよい形式で作業できます。
+- GeoJSON以外の効率的かつコンパクトな形式 (GeoPackage, FlatGeobuf, etc.) でも出力できます。
 
 ## インストール
 
@@ -65,7 +65,7 @@ Options:
 # 3つのZIPファイルをまとめて1つのFlatGeobufに変換する
 ❯ mojxml2ogr output.fgb 01202-4400.zip 01236-4400.zip 01337-4400.zip
 
-# zZIPファイルを1段階展開して出てくるZIPファイルも入力できる
+# ZIPファイルを1段階展開して出てくるZIPファイルも入力できる
 ❯ mojxml2ogr output.fgb 15222-1107-15*.zip
 ```
 
