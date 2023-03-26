@@ -197,7 +197,7 @@ def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
     points = _parse_points(spatial_elem)
     curves = _parse_curves(spatial_elem, points)
 
-    # 平面直交座標系を WGS84 に変換する
+    # 平面直角座標系を WGS84 に変換する
     if source_crs is not None:
         transformer = pyproj.Transformer.from_crs(
             source_crs, "epsg:4326", always_xy=True
