@@ -46,7 +46,7 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 
 [tool.flake8]
-exclude = ".venv"
+exclude = ".venv,__pycache__,.git"
 extend-select = "B950"
 extend-ignore = "E203,E501,B008,D104,D400,D415"
 max-line-length = 88
