@@ -106,23 +106,32 @@ def _parse_surfaces(
 ) -> Dict[str, Surface]:
     surfaces: Dict[str, Surface] = {}
     for surface in spatial_elem.iterfind("./zmn:GM_Surface", _NS):
-        assert surface.find(".//zmn:GM_SurfaceBoundary.exterior", _NS) is not None
         polygons = surface.findall("./zmn:GM_Surface.patch/zmn:GM_Polygon", _NS)
         assert len(polygons) == 1
         polygon = polygons[0]
-
         surface_id = surface.attrib["id"]
-        surface_curves: list[tuple[float, float]] = []
-        for cc in polygon.iterfind(".//zmn:GM_CompositeCurve.generator", _NS):
+        rings: list[list[tuple[float, float]]] = []
+
+        exterior = polygon.find(".//zmn:GM_SurfaceBoundary.exterior", _NS)
+        ring: list[tuple[float, float]] = []
+        for cc in exterior.find(".//zmn:GM_Ring", _NS):
             curve_id = cc.attrib["idref"]
             assert curve_id in curves
-            assert surface_id not in surface_curves
-            surface_curves.append(curves[curve_id])
+            ring.append(curves[curve_id])
+        ring.append(ring[0])
+        rings.append(ring)
+
+        for interior in polygon.iterfind(".//zmn:GM_SurfaceBoundary.interior", _NS):
+            ring: list[tuple[float, float]] = []
+            for cc in interior.find(".//zmn:GM_Ring", _NS):
+                curve_id = cc.attrib["idref"]
+                assert curve_id in curves
+                ring.append(curves[curve_id])
+            ring.append(ring[0])
+            rings.append(ring)
 
         assert surface_id not in surfaces
-        assert len(surface_curves) > 0, surface_id
-        surface_curves.append(surface_curves[0])
-        surfaces[surface_id] = [[surface_curves]]
+        surfaces[surface_id] = [rings]
 
     return surfaces
 
