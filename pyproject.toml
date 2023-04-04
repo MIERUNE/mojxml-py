@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mojxml"
-version = "0.2.1"
+version = "0.3.0"
 description = 'A tool for fast conversion of Japanese "MOJ Map XML" (land registration polygons) into geospatial formats.'
 authors = ["MIERUNE Inc. <info@mierune.co.jp>"]
 readme = "README.md"
