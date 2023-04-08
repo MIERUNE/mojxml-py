@@ -1,4 +1,4 @@
-"""Handle XMLs and single/doule-zipped archives of MOJXML trnsparently"""
+"""Handle XMLs and single/doule-zipped archives of MOJXML trnsparently."""
 
 from pathlib import Path
 from typing import Iterable, List
@@ -6,7 +6,7 @@ from zipfile import ZipFile
 
 
 def iter_content_xmls(src_paths: List[Path]) -> Iterable[bytes]:
-    """Iterate XML contents from given zips and xmls"""
+    """Iterate XML contents from given zips and xmls."""
     for src_path in src_paths:
         src_path = Path(src_path)
         if src_path.suffix == ".xml":
@@ -20,10 +20,10 @@ def iter_content_xmls(src_paths: List[Path]) -> Iterable[bytes]:
 
 
 class MojXMLZipFile(ZipFile):
-    """Handles single/doule-zipped archives of MOJ XMLs transparently"""
+    """Handles single/doule-zipped archives of MOJ XMLs transparently."""
 
-    def iter_xml_contents(self):
-        """Iterate XML contents from given zips"""
+    def iter_xml_contents(self) -> Iterable[bytes]:
+        """Iterate XML contents from given zips."""
         for name in self.namelist():
             if name.endswith(".zip"):
                 yield self._extract_xml_content(name[:-4])

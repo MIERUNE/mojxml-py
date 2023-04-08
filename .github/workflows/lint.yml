@@ -39,14 +39,11 @@ jobs:
       - name: Check poetry.lock
         run: poetry lock --check
 
-      - name: pyright
+      - name: Type-check with Pyright
         run: poetry run pyright .
 
-      - name: black
+      - name: Check format with Black
         run: poetry run black --check --diff .
 
-      - name: isort
-        run: poetry run isort --check --diff .
-
-      - name: flake8
-        run: poetry run flake8 .
+      - name: Lint with ruff
+        run: poetry run ruff --format=github .

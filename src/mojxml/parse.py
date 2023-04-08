@@ -1,4 +1,4 @@
-"""Parse MOJ MAP XML files"""
+"""Parse MOJ MAP XML files."""
 
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, TypedDict
@@ -17,14 +17,14 @@ Surface = List[List[List[Tuple[float, float]]]]
 
 @dataclass
 class ParseOptions:
-    """Options for parsing XMLs"""
+    """Options for parsing XMLs."""
 
     include_arbitrary_crs: bool = False
     include_chikugai: bool = False
 
 
 class Feature(TypedDict):
-    """GeoJSON-like feature representation"""
+    """GeoJSON-like feature representation."""
 
     type: str
     geometry: Dict[str, list]
@@ -145,8 +145,6 @@ def _parse_features(
         properties = {
             "筆ID": fude_id,
             "精度区分": None,
-            "丁目名": None,
-            "精度区分": None,
             "大字コード": None,
             "丁目コード": None,
             "小字コード": None,
@@ -232,7 +230,8 @@ def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
     surfaces = _parse_surfaces(spatial_elem, curves)
 
     # Note: 図郭についてはひとまず扱わないことにする。
-    # デジタル庁の実装は筆に図郭の情報を付与しているのものの、これは筆に複数の図郭が結びつく場合に問題があるように思う
+    # デジタル庁の実装は筆に図郭の情報を付与しているのものの、
+    # これは筆に複数の図郭が結びつく場合に問題があるように思う
     #
     # fude_to_zukakus = {}
     # for zk in doc.iterfind(".//図郭", _NS):

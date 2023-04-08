@@ -1,4 +1,4 @@
-"""Command line interface for mojxml"""
+"""Command line interface for mojxml."""
 
 import logging
 from pathlib import Path
