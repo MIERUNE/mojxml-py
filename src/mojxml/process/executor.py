@@ -1,4 +1,4 @@
-"""Run conversion in parallel."""
+"""Run conversion process in parallel."""
 
 import concurrent.futures
 import os
@@ -9,10 +9,10 @@ from ..parse import Feature, ParseOptions, parse_raw
 
 
 class BaseExecutor(metaclass=ABCMeta):
-    """Executor for processing files."""
+    """Executor for processing files"""
 
     def __init__(self, options: ParseOptions) -> None:
-        """Initialize."""
+        """Initialize"""
         self.options = options
 
     @abstractmethod
@@ -20,11 +20,11 @@ class BaseExecutor(metaclass=ABCMeta):
         self,
         src_iter: Iterable[bytes],
     ) -> Iterable[List[Feature]]:
-        """Convert XMLs to OGR features."""
+        """Convert XMLs to OGR features"""
 
 
 class WorkerPoolExecutor(BaseExecutor, metaclass=ABCMeta):
-    """Executor implemeted with worker pool."""
+    """Executor implemeted with worker pool"""
 
     @abstractmethod
     def _get_executor(self, max_workers: int) -> concurrent.futures.Executor:
@@ -34,7 +34,7 @@ class WorkerPoolExecutor(BaseExecutor, metaclass=ABCMeta):
         self,
         src_iter: Iterable[bytes],
     ) -> Iterable[List[Feature]]:
-        """Convert XMLs to OGR features."""
+        """Convert XMLs to OGR features"""
         max_workers = os.cpu_count() or 1
         with self._get_executor(max_workers=max_workers) as executor:
             futs = []
@@ -58,7 +58,7 @@ class WorkerPoolExecutor(BaseExecutor, metaclass=ABCMeta):
 
 
 class ProcessPoolExecutor(WorkerPoolExecutor):
-    """Process paralelly with ProcessPoolExecutor."""
+    """Process in parallel with ProcessPoolExecutor"""
 
     def _get_executor(self, max_workers: int) -> concurrent.futures.Executor:
         max_workers = os.cpu_count() or 1
@@ -66,7 +66,7 @@ class ProcessPoolExecutor(WorkerPoolExecutor):
 
 
 class ThreadPoolExecutor(WorkerPoolExecutor):
-    """Process paralelly with ThreadPoolExecutor."""
+    """Process in parallel with ThreadPoolExecutor"""
 
     def _get_executor(self, max_workers: int) -> concurrent.futures.Executor:
         max_workers = (os.cpu_count() or 1) * 2
@@ -74,10 +74,10 @@ class ThreadPoolExecutor(WorkerPoolExecutor):
 
 
 class SingleThreadExecutor(BaseExecutor):
-    """Process files with single-thread (normal) iterator."""
+    """Process files with single-thread (normal) iterator"""
 
     def iter_process(self, src_iter: Iterable[bytes]) -> Iterable[List[Feature]]:
-        """Convert XMLs to OGR features."""
+        """Convert XMLs to OGR features"""
         for src in src_iter:
             yield parse_raw(src, options=self.options)
 

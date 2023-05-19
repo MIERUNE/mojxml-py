@@ -1,4 +1,4 @@
-"""Schema for OGR output."""
+"""Schema for OGR output"""
 
 import typing
 from collections import OrderedDict
@@ -28,8 +28,6 @@ OGR_SCHEMA: _SchemaType = {
             ("小字名", "str"),
             ("地番", "str"),
             ("筆界未定構成筆", "str"),
-            ("代表点経度", "float"),
-            ("代表点緯度", "float"),
             ("精度区分", "str"),
             ("座標値種別", "str"),
         ]

@@ -23,7 +23,6 @@ mojxml2ogr = 'mojxml.__main__:main'
 python = ">=3.8.7,<4.0"
 lxml = "^4.9.2"
 pyproj = "^3.4.1"
-shapely = "^2.0.1"
 fiona = "^1.9.1"
 click = "^8.1.3"
 

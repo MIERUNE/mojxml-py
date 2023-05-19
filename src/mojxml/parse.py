@@ -1,11 +1,10 @@
-"""Parse MOJ MAP XML files."""
+"""Parse MOJ MAP XML files"""
 
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, TypedDict
 
 import lxml.etree as et
 import pyproj
-from shapely.geometry import MultiPolygon
 
 from .constants import CRS_MAP
 from .constants import XML_NAMESPACES as _NS
@@ -17,14 +16,14 @@ Surface = List[List[List[Tuple[float, float]]]]
 
 @dataclass
 class ParseOptions:
-    """Options for parsing XMLs."""
+    """Options for parsing XMLs"""
 
     include_arbitrary_crs: bool = False
     include_chikugai: bool = False
 
 
 class Feature(TypedDict):
-    """GeoJSON-like feature representation."""
+    """GeoJSON-like feature representation"""
 
     type: str
     geometry: Dict[str, list]
@@ -160,8 +159,6 @@ def _parse_features(
             "市区町村名": None,
             "座標系": None,
             "測地系判別": None,
-            "代表点経度": None,
-            "代表点緯度": None,
         }
         geometry = None
         for entry in fude:
@@ -169,11 +166,6 @@ def _parse_features(
             if key == "形状":
                 coordinates = surfaces[entry.attrib["idref"]]
                 geometry = {"type": "MultiPolygon", "coordinates": coordinates}
-                rep_point = MultiPolygon(
-                    (p[0], p[1:]) for p in coordinates
-                ).representative_point()
-                properties["代表点経度"] = rep_point.x
-                properties["代表点緯度"] = rep_point.y
             else:
                 value = entry.text
                 properties[key] = value

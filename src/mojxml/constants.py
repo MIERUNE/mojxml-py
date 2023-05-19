@@ -1,4 +1,4 @@
-"""Constant values."""
+"""Constant values"""
 
 from typing import Mapping, Optional
 
