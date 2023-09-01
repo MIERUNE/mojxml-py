@@ -151,6 +151,7 @@ def _parse_features(
             "大字名": None,
             "丁目名": None,
             "小字名": None,
+            "予備名": None,
             "地番": None,
             "座標値種別": None,
             "筆界未定構成筆": None,
