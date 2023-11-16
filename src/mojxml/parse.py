@@ -95,7 +95,7 @@ def _parse_curves(
         curve_id = curve.attrib["id"]
         assert x is not None and y is not None
 
-        curves[curve_id] = (x, y)
+        curves[curve_id] = (y, x)
 
     return curves
 
@@ -209,7 +209,7 @@ def parse_raw(content: bytes, options: ParseOptions) -> List[Feature]:
             curve_ids.append(curve_id)
             xx.append(x)
             yy.append(y)
-        (xx, yy) = transformer.transform(yy, xx)
+        (xx, yy) = transformer.transform(xx, yy)
         for curve_id, x, y in zip(curve_ids, xx, yy):
             curves[curve_id] = (x, y)
 
