@@ -69,5 +69,4 @@ def files_to_feature_iter(
     """Iterate features from given XML/ZIP files."""
     features_iter = executor.iter_process(iter_content_xmls(src_paths))
     for features in features_iter:
-        for feature in features:
-            yield feature
+        yield from features
