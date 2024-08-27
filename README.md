@@ -76,3 +76,9 @@ MIT License
 ### テスト用データについて
 
 [`./testdata/`](./testdata/) に含まれるZIPファイルおよびXMLファイルは、「登記所備付地図データ」（法務省）を、登記所備付地図データ利用規約に基づいて複製したものです。
+
+## Authors
+
+- MIERUNE Inc.
+- Taku Fukada ([@ciscorn](https://github.com/ciscorn)) - original author
+
