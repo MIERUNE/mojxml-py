@@ -79,6 +79,6 @@ MIT License
 
 ## Authors
 
+- Taku Fukada ([@ciscorn](https://github.com/ciscorn)) - Original Author
 - MIERUNE Inc.
-- Taku Fukada ([@ciscorn](https://github.com/ciscorn)) - original author
 
