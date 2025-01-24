@@ -1,13 +1,13 @@
-[tool.poetry]
+[project]
 name = "mojxml"
 version = "0.5.1"
 description = 'A tool for fast conversion of Japanese "MOJ Map XML" (land registration polygons) into geospatial formats.'
-authors = ["MIERUNE Inc. <info@mierune.co.jp>"]
+authors = [
+    { name = "Taku Fukada", email = "naninunenor@gmail.com" },
+    { name = "MIERUNE Inc.", email = "info@mierune.co.jp" },
+]
 readme = "README.md"
-homepage = "https://github.com/MIERUNE/mojxml-py"
-repository = "https://github.com/MIERUNE/mojxml-py"
 license = "MIT"
-packages = [{ include = "mojxml", from = "src" }]
 classifiers = [
     "Operating System :: OS Independent",
     "Intended Audience :: Developers",
@@ -15,33 +15,41 @@ classifiers = [
     "Topic :: Scientific/Engineering :: GIS",
     "Intended Audience :: Science/Research",
 ]
+requires-python = ">=3.9.0"
+dependencies = [
+    "lxml>=4.9.2",
+    "fiona>=1.10.0",
+    "click>=8.1.8",
+    "pyproj>=3.6.1",
+]
 
-[tool.poetry.scripts]
+[project.urls]
+Homepage = "https://github.com/MIERUNE/mojxml-py"
+Repository = "https://github.com/MIERUNE/mojxml-py"
+
+[project.scripts]
 mojxml2ogr = 'mojxml.__main__:main'
 
-[tool.poetry.dependencies]
-python = ">=3.9,<4.0"
-lxml = ">=4.9.2,<6.0.0"
-fiona = "^1.9.1"
-click = "^8.1.3"
-pyproj = "^3.6.1"
-
-[tool.poetry.group.dev.dependencies]
-pytest = ">=7.4,<9.0"
-pytest-cov = ">=4,<6"
-pyright = "^1.1"
-ruff = ">=0.1,<0.5"
+[dependency-groups]
+dev = [
+    "pyqt5-stubs>=5.15.6.0",
+    "pytest-cov>=6.0.0",
+    "pytest>=8.3.4",
+    "ruff>=0.9.3",
+    "pyright>=1.1.392.post0",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
-select = ["F", "E", "W", "B", "N", "I", "UP", "C90", "ANN"]
-ignore = ["ANN101"]
 target-version = "py38"
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint]
+select = ["F", "E", "W", "B", "N", "I", "UP", "C90", "ANN"]
+
+[tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ANN"]
 
 [tool.pyright]

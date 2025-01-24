@@ -1,6 +1,7 @@
 """Tests for __main__.py."""
 
 from click.testing import CliRunner
+
 from mojxml.__main__ import main
 
 
