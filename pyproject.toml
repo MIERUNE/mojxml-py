@@ -1,6 +1,6 @@
 [project]
 name = "mojxml"
-version = "0.5.2"
+version = "0.5.3"
 description = 'A tool for fast conversion of Japanese "MOJ Map XML" (land registration polygons) into geospatial formats.'
 authors = [
     { name = "Taku Fukada", email = "naninunenor@gmail.com" },
