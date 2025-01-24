@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pytest
+
 from mojxml.reader import iter_content_xmls
 
 
